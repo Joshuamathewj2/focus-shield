@@ -28,8 +28,8 @@ function buildRule(domain, ruleId) {
     action: {
       type: "redirect",
       redirect: {
-        // Redirect to our custom blocked page
-        extensionPath: "/blocked.html"
+        // Redirect to our custom blocked page, telling it which site was blocked
+        url: `${chrome.runtime.getURL("blocked.html")}?site=${encodeURIComponent(domain)}`
       }
     },
     condition: {
@@ -59,17 +59,29 @@ async function applyBlockingRules(sites) {
   console.log(`[Focus Shield] Applied ${newRules.length} blocking rules. Active domains: ${sites.join(', ')}`);
 }
 
-// ── Save blocked sites list and refresh rules ───────────────
+// ── Remove every blocking rule ──────────────────────────────
+async function clearBlockingRules() {
+  const existing = await chrome.declarativeNetRequest.getDynamicRules();
+  await chrome.declarativeNetRequest.updateDynamicRules({
+    removeRuleIds: existing.map(r => r.id),
+    addRules: []
+  });
+}
+
+// ── Save blocked sites list; only block if focus mode is on ──
 async function saveAndApply(sites) {
   await chrome.storage.local.set({ blockedSites: sites });
-  await applyBlockingRules(sites);
+  const { focusActive } = await chrome.storage.local.get("focusActive");
+  if (focusActive) {
+    await applyBlockingRules(sites);
+  }
 }
 
 async function loadSites() {
   const result = await chrome.storage.local.get("blockedSites");
   if (!result.blockedSites) {
     console.log("[Focus Shield] First run: loading default blocked sites.");
-    await saveAndApply(DEFAULT_BLOCKED_SITES);
+    await chrome.storage.local.set({ blockedSites: DEFAULT_BLOCKED_SITES });
     return DEFAULT_BLOCKED_SITES;
   }
   console.log(`[Focus Shield] Loaded ${result.blockedSites.length} blocked sites from storage.`);
@@ -88,8 +100,9 @@ chrome.runtime.onInstalled.addListener(async () => {
     sessionCount: 0
   });
 
-  const sites = await loadSites();
-  await applyBlockingRules(sites);
+  // Focus mode starts OFF, so nothing is blocked until the user starts a session.
+  await loadSites();
+  await clearBlockingRules();
 });
 
 // Re-apply rules whenever Chrome restarts (service worker wakes up)
@@ -166,12 +179,7 @@ async function handleMessage(message) {
       const sites = await loadSites();
       await applyBlockingRules(sites);
     } else {
-      // Remove ALL dynamic rules (unblock everything)
-      const existing = await chrome.declarativeNetRequest.getDynamicRules();
-      await chrome.declarativeNetRequest.updateDynamicRules({
-        removeRuleIds: existing.map(r => r.id),
-        addRules: []
-      });
+      await clearBlockingRules();
       console.log("[Focus Shield] All blocking rules removed.");
     }
     return { ok: true };
@@ -213,13 +221,7 @@ async function handleMessage(message) {
       focusActive: false
     });
 
-    // Unblock sites
-    const existing = await chrome.declarativeNetRequest.getDynamicRules();
-    await chrome.declarativeNetRequest.updateDynamicRules({
-      removeRuleIds: existing.map(r => r.id),
-      addRules: []
-    });
-
+    await clearBlockingRules();
     return { ok: true };
   }
 

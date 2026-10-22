@@ -9,7 +9,8 @@
     "declarativeNetRequest",
     "declarativeNetRequestWithHostAccess",
     "tabs",
-    "alarms"
+    "alarms",
+    "notifications"
   ],
 
   "host_permissions": [
