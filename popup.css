@@ -93,9 +93,9 @@ body {
   align-items: center;
   justify-content: center;
   gap: 7px;
-  background: #0d0d0d;
+  background: #0f0f0f;
   color: #888888;
-  border: 1px solid var(--neon-border);
+  border: 1px solid #262626;
   border-radius: var(--radius-sm);
   padding: 8px 14px;
   font-family: 'Space Grotesk', 'Syne', sans-serif;
@@ -103,23 +103,23 @@ body {
   font-weight: 600;
   letter-spacing: 0.3px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   user-select: none;
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.15);
+  box-shadow: none;
 }
 
 .nav-tab:hover {
-  background: #171717;
+  background: #181818;
   color: #ffffff;
-  border-color: var(--neon-border-hi);
-  box-shadow: var(--neon-glow);
+  border-color: #404040;
+  box-shadow: none;
 }
 
 .nav-tab.active {
   background: #ffffff;
   color: #000000;
   border-color: #ffffff;
-  box-shadow: 0 0 14px rgba(255, 255, 255, 0.65), 0 0 26px rgba(255, 255, 255, 0.3);
+  box-shadow: none;
 }
 
 .nav-tab svg {
