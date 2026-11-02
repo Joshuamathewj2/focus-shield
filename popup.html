@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LinkVault & Focus Shield</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <!-- Top Navbar (Vault / Shield) -->
+  <nav class="app-nav">
+    <button type="button" class="nav-tab active" id="tabVault" title="Link Vault - Save & Organize Links">
+      <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
+        <rect x="1" y="1" width="7" height="7" rx="1.5" fill="currentColor" opacity="0.9"/>
+        <rect x="10" y="1" width="7" height="7" rx="1.5" fill="currentColor" opacity="0.6"/>
+        <rect x="1" y="10" width="7" height="7" rx="1.5" fill="currentColor" opacity="0.6"/>
+        <rect x="10" y="10" width="7" height="7" rx="1.5" fill="currentColor" opacity="0.3"/>
+      </svg>
+      <span>Vault</span>
+    </button>
+    <button type="button" class="nav-tab" id="tabShield" title="Focus Shield - Block Distracting Sites">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      <span>Shield</span>
+    </button>
+  </nav>
+
+  <!-- Page 1: LinkVault View -->
+  <div id="viewVault" class="view-panel">
+    <div id="app">
+
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <div class="logo">
+            <img src="icons/48.png" width="20" height="20" style="border-radius: 5px; object-fit: cover; border: 1px solid rgba(255,255,255,0.15);" alt="Logo" />
+            <span class="logo-text">LinkVault</span>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="icon-btn" id="exportBtn" title="Download JSON">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Stats Bar -->
+      <div class="stats-bar">
+        <div class="stat">
+          <span class="stat-value" id="statTotal">0</span>
+          <span class="stat-label">Websites</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-value" id="statFavs">0</span>
+          <span class="stat-label">Favorites</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-value" id="statTags">0</span>
+          <span class="stat-label">Tags Used</span>
+        </div>
+      </div>
+
+      <!-- Add Form -->
+      <div class="form-section">
+        <div class="form-row">
+          <input type="text" id="inTitle" class="field" placeholder="Title" />
+        </div>
+        <div class="form-row">
+          <input type="text" id="inUrl" class="field" placeholder="URL" />
+        </div>
+        <div class="form-row">
+          <input type="text" id="inDesc" class="field" placeholder="Description" />
+        </div>
+        <div class="form-row">
+          <input type="text" id="inTags" class="field" placeholder="Tags  (comma separated: ai, llm, api)" />
+        </div>
+        <div class="form-actions">
+          <span class="feedback-msg" id="vaultFeedbackMsg"></span>
+          <button class="btn-secondary" id="clearBtn">Clear</button>
+          <button class="btn-primary" id="saveBtn">Save Website</button>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="search-section">
+        <div class="search-wrap">
+          <svg class="search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="searchInput" class="search-field" placeholder="Search titles, descriptions, tags..." />
+          <button class="search-clear" id="searchClear" style="display:none">✕</button>
+        </div>
+      </div>
+
+      <!-- Library -->
+      <div class="library" id="library">
+        <div class="empty-state" id="emptyState">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          <p>No websites saved yet.</p>
+          <span>Start saving resources above.</span>
+        </div>
+        <div id="cardList"></div>
+      </div>
+
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="editModal" style="display:none">
+      <div class="modal">
+        <div class="modal-header">
+          <span class="modal-title">Edit Website</span>
+          <button class="modal-close" id="modalClose">✕</button>
+        </div>
+        <input type="text" id="editTitle" class="field" placeholder="Title" />
+        <input type="text" id="editUrl" class="field" placeholder="URL" />
+        <input type="text" id="editDesc" class="field" placeholder="Description" />
+        <input type="text" id="editTags" class="field" placeholder="Tags (comma separated)" />
+        <div class="modal-actions">
+          <button class="btn-secondary" id="cancelEdit">Cancel</button>
+          <button class="btn-primary" id="saveEdit">Save Changes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+  </div>
+
+  <!-- Page 2: Focus Shield View -->
+  <div id="viewShield" class="view-panel" style="display: none;">
+    <div class="popup-wrap">
+
+      <!-- Header -->
+      <header class="header">
+        <div class="logo">
+          <img src="icons/48.png" width="20" height="20" style="border-radius: 5px; object-fit: cover; border: 1px solid rgba(255,255,255,0.15);" alt="Logo" />
+          <span class="logo-text">Focus<strong>Shield</strong></span>
+        </div>
+        <div class="site-badge" id="siteBadge" title="Total blocked websites">
+          <span id="siteCount">0</span> blocked
+        </div>
+      </header>
+
+      <!-- Focus Toggle -->
+      <section class="card toggle-card">
+        <div class="toggle-row">
+          <div>
+            <div class="card-title">Focus Mode</div>
+            <div class="card-sub" id="focusStatus">Distraction blocking is ON 🔒</div>
+          </div>
+          <label class="switch" aria-label="Toggle focus mode">
+            <input type="checkbox" id="focusToggle" />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Current Tab Quick Action -->
+      <section class="card current-tab-card" id="currentTabCard" style="display: none;">
+        <div class="current-tab-row">
+          <div class="current-tab-info">
+            <div class="current-tab-label">Current Website</div>
+            <div class="current-tab-domain" id="currentTabDomain">—</div>
+          </div>
+          <button class="btn btn-quick" id="quickToggleBtn">Block Site</button>
+        </div>
+      </section>
+
+      <!-- Blocked Sites List -->
+      <section class="card sites-card">
+        <div class="sites-header">
+          <div class="card-title">Blocked Sites</div>
+          <span class="capture-badge" id="captureBadge" style="display: none;">Auto-Captured</span>
+        </div>
+
+        <!-- Auto-captured site input + 1-click Add button -->
+        <div class="add-row">
+          <input
+            type="text"
+            id="siteInput"
+            class="site-input"
+            placeholder="Enter website (e.g. youtube.com)..."
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="btn btn-add" id="addSiteBtn" title="Add website to blocklist">+ Block</button>
+        </div>
+
+        <div class="feedback-msg" id="shieldFeedbackMsg"></div>
+
+        <!-- Dynamic list rendered by popup-shield.js -->
+        <ul class="sites-list" id="sitesList"></ul>
+      </section>
+
+      <footer class="footer">FOCUS SHIELD · PURE BLACK EDITION</footer>
+    </div>
+  </div>
+
+  <script src="storage.js"></script>
+  <script src="popup-vault.js"></script>
+  <script src="popup-shield.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

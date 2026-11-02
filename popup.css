@@ -1,0 +1,1104 @@
+/* ============================================================
+   popup.css — Combined LinkVault & Focus Shield Stylesheet
+   Pure Dark Aesthetic with Neon White Glow & Rounded Contours
+   ============================================================ */
+
+/* ── Reset & Base Variables ────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #000000;
+  --card: #0d0d0d;
+  --card-hover: #141414;
+  --border: #222222;
+  --border-focus: #ffffff;
+  --text: #FFFFFF;
+  --text-secondary: #AAAAAA;
+  --text-muted: #787878;
+  --accent: #FFFFFF;
+  --accent-dim: rgba(255,255,255,0.08);
+  --fav: #F5C542;
+  --danger: #FF4444;
+  --danger-soft: rgba(255, 77, 77, 0.14);
+  --success: #44FF88;
+  --green: #22c55e;
+  --green-soft: rgba(34, 197, 94, 0.14);
+  --tag-bg: #141414;
+  --tag-border: rgba(255, 255, 255, 0.18);
+  
+  /* Soft Rounded Radii */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 14px;
+
+  /* Neon White Glow Tokens */
+  --neon-border: rgba(255, 255, 255, 0.55);
+  --neon-border-hi: #ffffff;
+  --neon-glow: 0 0 10px rgba(255, 255, 255, 0.35), 0 0 20px rgba(255, 255, 255, 0.12);
+  --neon-glow-focus: 0 0 14px rgba(255, 255, 255, 0.75), 0 0 28px rgba(255, 255, 255, 0.35);
+  --neon-glow-card: 0 0 14px rgba(255, 255, 255, 0.22), 0 0 30px rgba(255, 255, 255, 0.08), inset 0 0 8px rgba(255, 255, 255, 0.03);
+}
+
+html {
+  width: 400px;
+  min-width: 400px;
+  max-width: 400px;
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+}
+
+body {
+  width: 400px;
+  min-width: 400px;
+  max-width: 400px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.12);
+}
+
+/* ── Custom Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #404040; }
+
+/* ── Top Navigation Bar ────────────────────────────────────── */
+.app-nav {
+  display: flex;
+  align-items: center;
+  background: #000000;
+  padding: 10px 14px;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-tab {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background: #0d0d0d;
+  color: #888888;
+  border: 1px solid var(--neon-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  font-family: 'Space Grotesk', 'Syne', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.15);
+}
+
+.nav-tab:hover {
+  background: #171717;
+  color: #ffffff;
+  border-color: var(--neon-border-hi);
+  box-shadow: var(--neon-glow);
+}
+
+.nav-tab.active {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.65), 0 0 26px rgba(255, 255, 255, 0.3);
+}
+
+.nav-tab svg {
+  flex-shrink: 0;
+}
+
+/* ── View Container & Panels ───────────────────────────────── */
+.view-panel {
+  width: 100%;
+}
+
+/* ============================================================
+   LINK VAULT VIEW STYLES
+   ============================================================ */
+
+#viewVault #app {
+  width: 100%;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+#viewVault .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+#viewVault .header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#viewVault .logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#viewVault .logo-text {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+#viewVault .header-actions {
+  display: flex;
+  gap: 6px;
+}
+
+#viewVault .icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: #0d0d0d;
+  border: 1px solid var(--neon-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.15);
+}
+
+#viewVault .icon-btn:hover {
+  border-color: var(--neon-border-hi);
+  color: #ffffff;
+  background: #171717;
+  box-shadow: var(--neon-glow);
+}
+
+#viewVault .stats-bar {
+  display: flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+#viewVault .stat {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  flex: 1;
+  justify-content: center;
+}
+
+#viewVault .stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1;
+}
+
+#viewVault .stat-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+}
+
+#viewVault .stat-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  margin: 0 4px;
+}
+
+#viewVault .form-section {
+  padding: 12px 14px 8px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#viewVault .form-row {
+  width: 100%;
+}
+
+/* ── Neon Glow Inputs (Vault) ── */
+#viewVault .field {
+  width: 100%;
+  background: #0a0a0a;
+  border: 1px solid var(--neon-border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  font-size: 12.5px;
+  padding: 8px 12px;
+  outline: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.12), inset 0 0 4px rgba(255, 255, 255, 0.03);
+}
+
+#viewVault .field::placeholder {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+#viewVault .field:focus {
+  border-color: var(--neon-border-hi);
+  background: #111111;
+  box-shadow: var(--neon-glow-focus), inset 0 0 6px rgba(255, 255, 255, 0.06);
+}
+
+#viewVault .form-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+#viewVault .feedback-msg {
+  flex: 1;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+#viewVault .feedback-msg.error { color: var(--danger); }
+#viewVault .feedback-msg.success { color: var(--success); }
+
+/* ── Neon Glow Buttons (Vault) ── */
+#viewVault .btn-primary,
+#viewVault .btn-secondary {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 7px 15px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+#viewVault .btn-primary {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.15);
+}
+
+#viewVault .btn-primary:hover {
+  background: #f0f0f0;
+  box-shadow: var(--neon-glow-focus);
+  transform: translateY(-1px);
+}
+
+#viewVault .btn-secondary {
+  background: #0d0d0d;
+  color: var(--text-secondary);
+  border: 1px solid var(--neon-border);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.15);
+}
+
+#viewVault .btn-secondary:hover {
+  background: #181818;
+  color: #ffffff;
+  border-color: var(--neon-border-hi);
+  box-shadow: var(--neon-glow);
+}
+
+#viewVault .search-section {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+#viewVault .search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+#viewVault .search-icon {
+  position: absolute;
+  left: 10px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+/* ── Neon Glow Search Input ── */
+#viewVault .search-field {
+  width: 100%;
+  background: #0a0a0a;
+  border: 1px solid var(--neon-border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  padding: 7px 28px 7px 30px;
+  outline: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.12);
+}
+
+#viewVault .search-field::placeholder { color: var(--text-muted); }
+#viewVault .search-field:focus {
+  border-color: var(--neon-border-hi);
+  background: #111111;
+  box-shadow: var(--neon-glow-focus);
+}
+
+#viewVault .search-clear {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 11px;
+  line-height: 1;
+  padding: 2px;
+  transition: color 0.15s;
+}
+
+#viewVault .search-clear:hover { color: var(--text); }
+
+#viewVault .library {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 330px;
+  padding: 10px 14px 12px;
+}
+
+#viewVault .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 32px 0;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+#viewVault .empty-state p {
+  font-size: 13px;
+  color: #666666;
+  font-weight: 500;
+}
+
+#viewVault .empty-state span {
+  font-size: 11px;
+  color: #444444;
+}
+
+/* ── Neon Glow Cards (Vault) ── */
+#viewVault .card {
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius);
+  padding: 11px 13px;
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+  position: relative;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.05);
+}
+
+#viewVault .card:hover {
+  border-color: var(--neon-border);
+  background: var(--card-hover);
+  box-shadow: var(--neon-glow-card);
+}
+
+#viewVault .card.is-fav {
+  border-color: rgba(245, 197, 66, 0.4);
+}
+
+#viewVault .card.is-fav::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--fav), transparent);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+#viewVault .card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
+#viewVault .card-title {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text);
+  flex: 1;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+#viewVault .card-fav-indicator {
+  color: var(--fav);
+  font-size: 12px;
+  flex-shrink: 0;
+  line-height: 1.4;
+}
+
+#viewVault .card-url {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  color: #60a5fa;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 5px;
+  max-width: 100%;
+  transition: color 0.15s;
+}
+
+#viewVault .card-url:hover { color: #93c5fd; }
+
+#viewVault .card-desc {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin-bottom: 6px;
+  word-break: break-word;
+}
+
+#viewVault .card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+#viewVault .tag {
+  background: var(--tag-bg);
+  border: 1px solid var(--tag-border);
+  border-radius: 5px;
+  padding: 1px 7px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: #999999;
+  letter-spacing: 0.02em;
+}
+
+#viewVault .card-actions {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+#viewVault .card-date {
+  flex: 1;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+}
+
+/* ── Neon Glow Card Buttons ── */
+#viewVault .card-btn {
+  background: #0a0a0a;
+  border: 1px solid var(--neon-border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-family: 'Syne', sans-serif;
+  font-size: 10.5px;
+  font-weight: 500;
+  padding: 4px 9px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.12);
+}
+
+#viewVault .card-btn:hover {
+  border-color: var(--neon-border-hi);
+  color: #ffffff;
+  background: #181818;
+  box-shadow: var(--neon-glow);
+}
+
+#viewVault .card-btn.btn-open:hover { color: #60a5fa; border-color: #60a5fa; box-shadow: 0 0 10px rgba(96, 165, 250, 0.4); }
+#viewVault .card-btn.btn-edit:hover { color: #ffffff; border-color: #ffffff; }
+#viewVault .card-btn.btn-delete:hover { color: var(--danger); border-color: var(--danger); box-shadow: 0 0 10px rgba(255, 68, 68, 0.4); }
+#viewVault .card-btn.btn-fav { font-size: 12px; padding: 3px 7px; }
+#viewVault .card-btn.btn-fav.active { color: var(--fav); border-color: var(--fav); box-shadow: 0 0 8px rgba(245, 197, 66, 0.4); }
+#viewVault .card-btn.btn-fav:hover { color: var(--fav); border-color: var(--fav); }
+
+#viewVault .no-results {
+  text-align: center;
+  padding: 24px 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+#viewVault .no-results span {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #444444;
+}
+
+#viewVault .section-label {
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#viewVault .section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── Modal (Vault Edit) ────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal {
+  background: #0d0d0d;
+  border: 1px solid var(--neon-border);
+  border-radius: var(--radius);
+  padding: 16px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: var(--neon-glow-card);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.modal-title {
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--text);
+  letter-spacing: 0.03em;
+}
+
+.modal-close {
+  background: transparent;
+  border: 1px solid var(--neon-border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.15s;
+  padding: 2px 7px;
+}
+
+.modal-close:hover {
+  color: #ffffff;
+  border-color: #ffffff;
+  box-shadow: var(--neon-glow);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* ── Toast ─────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #141414;
+  border: 1px solid var(--neon-border);
+  color: var(--text);
+  font-size: 11.5px;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 300;
+  white-space: nowrap;
+  box-shadow: var(--neon-glow);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast.toast-success { border-color: rgba(68, 255, 136, 0.6); color: var(--success); box-shadow: 0 0 12px rgba(68, 255, 136, 0.3); }
+.toast.toast-error { border-color: rgba(255, 68, 68, 0.6); color: var(--danger); box-shadow: 0 0 12px rgba(255, 68, 68, 0.3); }
+
+/* ============================================================
+   FOCUS SHIELD VIEW STYLES
+   ============================================================ */
+
+#viewShield .popup-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px 16px;
+  background: var(--bg);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+#viewShield .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 2px;
+}
+
+#viewShield .logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text);
+}
+
+#viewShield .logo strong {
+  color: var(--text);
+  font-weight: 700;
+  opacity: 0.7;
+  margin-left: 2px;
+}
+
+#viewShield .site-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: #101010;
+  border: 1px solid var(--neon-border);
+  border-radius: 999px;
+  padding: 3px 11px;
+  letter-spacing: 0.3px;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.12);
+}
+
+/* ── Blocked Website Popup Cards (Neon White Glow) ── */
+#viewShield .card {
+  background: #080808;
+  border: 1px solid var(--neon-border);
+  border-radius: var(--radius);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: var(--neon-glow-card);
+  transition: all 0.22s ease;
+}
+
+#viewShield .card:hover {
+  border-color: var(--neon-border-hi);
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.35), 0 0 35px rgba(255, 255, 255, 0.12), inset 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+#viewShield .card-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: var(--text);
+}
+
+#viewShield .card-sub {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-top: 2px;
+  transition: color .25s ease;
+}
+
+#viewShield .toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#viewShield .switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+}
+
+#viewShield .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+#viewShield .slider {
+  position: absolute;
+  inset: 0;
+  background: #101010;
+  border: 1px solid var(--neon-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all .25s ease;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.15);
+}
+
+#viewShield .slider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  top: 3px;
+  background: #666666;
+  border-radius: 50%;
+  transition: transform .25s cubic-bezier(.16, 1, .3, 1), background .25s ease;
+}
+
+#viewShield .switch input:checked + .slider {
+  background: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.65);
+}
+
+#viewShield .switch input:checked + .slider::before {
+  transform: translateX(22px);
+  background: #000000;
+}
+
+#viewShield .current-tab-card {
+  padding: 12px 14px;
+}
+
+#viewShield .current-tab-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+#viewShield .current-tab-info {
+  min-width: 0;
+  flex: 1;
+}
+
+#viewShield .current-tab-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+}
+
+#viewShield .current-tab-domain {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+/* ── Neon Glow Buttons (Shield) ── */
+#viewShield .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--neon-border);
+  border-radius: var(--radius-sm);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s ease;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+#viewShield .btn:hover {
+  border-color: var(--neon-border-hi);
+  box-shadow: var(--neon-glow);
+  transform: translateY(-1px);
+}
+
+#viewShield .btn-quick {
+  background: #ffffff;
+  color: #000000;
+  padding: 7px 14px;
+  font-size: 11.5px;
+  flex-shrink: 0;
+  letter-spacing: -0.2px;
+  border-color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.45);
+}
+
+#viewShield .btn-quick:hover {
+  background: #f0f0f0;
+  box-shadow: var(--neon-glow-focus);
+}
+
+#viewShield .btn-quick.is-blocked {
+  background: var(--danger-soft);
+  color: var(--danger);
+  border: 1px solid rgba(255, 77, 77, 0.5);
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.35);
+}
+
+#viewShield .btn-quick.is-blocked:hover {
+  background: rgba(255, 77, 77, 0.28);
+  border-color: var(--danger);
+  box-shadow: 0 0 16px rgba(255, 77, 77, 0.6);
+}
+
+#viewShield .sites-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#viewShield .capture-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 6px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+#viewShield .capture-badge.active {
+  background: var(--green-soft);
+  color: var(--green);
+  border: 1px solid rgba(34, 197, 94, 0.45);
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.25);
+}
+
+#viewShield .capture-badge.warning {
+  background: var(--danger-soft);
+  color: var(--danger);
+  border: 1px solid rgba(255, 77, 77, 0.45);
+  box-shadow: 0 0 8px rgba(255, 77, 77, 0.25);
+}
+
+#viewShield .add-row {
+  display: flex;
+  gap: 8px;
+}
+
+/* ── Neon Glow Input (Shield) ── */
+#viewShield .site-input {
+  flex: 1;
+  background: #0d0d0d;
+  border: 1px solid var(--neon-border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  font-size: 12px;
+  padding: 9px 12px;
+  outline: none;
+  transition: all .2s ease;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.12), inset 0 0 4px rgba(255, 255, 255, 0.03);
+}
+
+#viewShield .site-input::placeholder {
+  color: #666666;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11.5px;
+}
+
+#viewShield .site-input:focus {
+  border-color: var(--neon-border-hi);
+  background: #141414;
+  box-shadow: var(--neon-glow-focus), inset 0 0 6px rgba(255, 255, 255, 0.06);
+}
+
+#viewShield .site-input.shake {
+  animation: shake .35s ease;
+  border-color: var(--danger);
+  box-shadow: 0 0 12px rgba(255, 77, 77, 0.5);
+}
+
+#viewShield .btn-add {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
+  padding: 0 16px;
+  flex-shrink: 0;
+  letter-spacing: -0.2px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.45);
+}
+
+#viewShield .btn-add:hover {
+  background: #f0f0f0;
+  box-shadow: var(--neon-glow-focus);
+}
+
+#viewShield .feedback-msg {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  display: none;
+  padding: 2px 2px 0;
+  animation: fadeIn .2s ease;
+}
+
+#viewShield .feedback-msg.success { color: var(--green); }
+#viewShield .feedback-msg.warning { color: #d4d4d4; }
+#viewShield .feedback-msg.error   { color: var(--danger); }
+#viewShield .feedback-msg.info    { color: var(--text-muted); }
+
+/* ── Blocked Sites List (Neon Glow Items) ── */
+#viewShield .sites-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  max-height: 185px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #262626 transparent;
+  margin-top: 4px;
+}
+
+#viewShield .site-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: #0d0d0d;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  transition: all .2s ease;
+  animation: fadeIn .2s ease;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.05);
+}
+
+#viewShield .site-item.current-site-item {
+  border-color: rgba(255, 77, 77, 0.5);
+  box-shadow: 0 0 8px rgba(255, 77, 77, 0.25);
+}
+
+#viewShield .site-item:hover {
+  border-color: var(--neon-border);
+  background: #141414;
+  box-shadow: var(--neon-glow-card);
+}
+
+#viewShield .site-favicon {
+  font-size: 13px;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+#viewShield .site-name {
+  flex: 1;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  word-break: break-all;
+}
+
+#viewShield .remove-btn {
+  background: #0d0d0d;
+  border: 1px solid var(--neon-border);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 6px;
+  transition: all .2s ease;
+  flex-shrink: 0;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+#viewShield .remove-btn:hover {
+  color: var(--danger);
+  background: var(--danger-soft);
+  border-color: rgba(255, 77, 77, 0.55);
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.4);
+}
+
+#viewShield .empty-msg {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 11.5px;
+  padding: 18px 0;
+}
+
+#viewShield .footer {
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  color: #555555;
+  letter-spacing: 1.2px;
+  padding-top: 2px;
+}
+
+/* ── Animations ────────────────────────────────────────────── */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-5px); }
+  40%       { transform: translateX(5px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-3px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
